@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#6d4aff">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Jogos Finalizados</title>
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--tx:#1d1d1f;--mu:#6b6b70;--bd:#e3e1db;--ac:#6d4aff;--acx:#fff;--st:#f5a524;--dg:#d33;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141417;--card:#1e1e23;--tx:#f0f0f2;--mu:#9a9aa3;--bd:#2d2d34;--ac:#8c6dff;--dg:#ff6b6b}}
+:root[data-theme="dark"]{--bg:#141417;--card:#1e1e23;--tx:#f0f0f2;--mu:#9a9aa3;--bd:#2d2d34;--ac:#8c6dff;--dg:#ff6b6b}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 520px at 8% -8%,color-mix(in srgb,var(--ac) 22%,transparent),transparent 65%),radial-gradient(800px 520px at 100% 0%,color-mix(in srgb,#ff4a8d 16%,transparent),transparent 65%),var(--bg);background-attachment:fixed;color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+h1{font-size:24px;margin:0;background:linear-gradient(90deg,var(--ac),#ff4a8d);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.sub{color:var(--mu);font-size:13px}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+.btn{background:var(--ac);color:var(--acx);border:0;border-radius:10px;padding:9px 16px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.btn.danger{background:transparent;color:var(--dg);border:1px solid var(--bd)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.bar input,.bar select,.f input,.f select,.f textarea{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:9px 11px;width:100%}
+.bar input{flex:1;min-width:160px;width:auto}.bar select{width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer}
+.cov{aspect-ratio:3/4;background:linear-gradient(135deg,var(--ac),#2b2b3a);display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:700;color:#fff8;overflow:hidden}
+.cov img{width:100%;height:100%;object-fit:cover;display:block}
+.info{padding:10px 12px 12px}
+.t{font-weight:650;margin:0 0 4px}
+.pl{display:inline-block;font-size:12px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:1px 9px;color:var(--mu)}
+.stars{color:var(--st);letter-spacing:1px;font-size:17px;margin-top:6px}
+.stars .off{color:var(--bd)}
+.cm{color:var(--mu);font-size:13px;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
+.empty{text-align:center;color:var(--mu);padding:60px 10px}
+.walls{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.walls .info{display:none}
+.rows{display:flex;flex-direction:column;gap:8px}
+.rows .card{flex-direction:row;align-items:center}
+.rows .cov{width:54px;flex:none;font-size:20px}
+.rows .info{flex:1;min-width:0}
+.rows .stars{margin:0 14px;white-space:nowrap}
+.rows .cm{-webkit-line-clamp:1}
+.gh{font-size:17px;margin:22px 0 10px}.gh:first-child{margin-top:0}
+.gh .sub{font-weight:400}
+.bd{margin-left:4px;color:var(--ac);border-color:var(--ac)}
+.info div.sub{margin-top:5px}
+.cov{position:relative}
+.ico{display:none;position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;box-shadow:0 1px 4px #0007}
+.walls .ico{display:flex}
+.ico.fin{background:#22a559}.ico.play{background:var(--ac)}.ico.want{background:#555}
+.card{transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px #0003}
+.ib{position:relative;width:42px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--bd);border-radius:10px;cursor:pointer;font-size:18px}
+.ib::before{content:attr(data-i);pointer-events:none}
+.ib select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0}
+.ib.on{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac) inset}
+dialog{border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--tx);width:min(480px,94vw);padding:20px;max-height:92vh}
+dialog::backdrop{background:#0008}
+.f label{display:block;font-size:13px;color:var(--mu);margin:12px 0 4px}
+.f textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.pick{display:flex;gap:12px;align-items:center}
+.pick .cov{width:84px;flex:none;font-size:28px;border-radius:8px}
+.rate{display:flex;gap:2px}
+.rate button{background:none;border:0;font-size:30px;color:var(--bd);cursor:pointer;padding:0 2px}
+.rate button.on{color:var(--st)}
+.acts{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
+.acts .btn.danger{margin-right:auto}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div><h1>🎮 Meus Jogos</h1><div class="sub" id="stats"></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn ghost" id="exp" title="Salvar backup">Exportar</button>
+    <button class="btn ghost" id="imp" title="Restaurar backup">Importar</button>
+    <button class="btn" id="add">+ Adicionar jogo</button>
+  </div>
+</header>
+<div class="bar">
+  <input id="q" placeholder="Buscar jogo…">
+  <label class="ib" data-i="🎮" title="Status"><select id="fs"><option value="">Todos os status</option><option value="fin">Finalizados</option><option value="play">Jogando</option><option value="want">Quero finalizar</option></select></label>
+  <label class="ib" data-i="📅" title="Ano"><select id="fy"></select></label>
+  <label class="ib" data-i="🖥" title="Plataforma"><select id="fp"></select></label>
+  <label class="ib" data-i="⇅" title="Ordenar"><select id="so">
+    <option value="date">Mais recentes</option>
+    <option value="rate">Maior nota</option>
+    <option value="name">A–Z</option>
+    <option value="zname">Z–A</option>
+    <option value="old">Mais antigos</option>
+    <option value="lrate">Menor nota</option>
+    <option value="dur">Mais longos (duração)</option>
+    <option value="plat">Plataforma</option>
+    <option value="status">Status (não finalizados primeiro)</option>
+    <option value="rand">🎲 Aleatório</option>
+  </select></label>
+  <select id="vw" title="Modo de visualização">
+    <option value="grid">▦ Grade</option>
+    <option value="walls">▩ Só capas</option>
+    <option value="rows">☰ Lista</option>
+  </select>
+  <select id="gb" title="Agrupar por"><option value="">Sem agrupar</option>
+    <option value="gs">Agrupar por status</option>
+    <option value="gf">Finalizados × não finalizados</option>
+    <option value="gy">Agrupar por ano</option>
+    <option value="gp">Agrupar por plataforma</option>
+    <option value="gr">Agrupar por nota</option>
+    <option value="gm">Agrupar por mês</option>
+    <option value="gd">Agrupar por duração</option>
+    <option value="gl">Agrupar por letra</option>
+  </select>
+</div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" hidden>Nenhum jogo ainda. Clique em “Adicionar jogo” para começar!</div>
+</main>
+
+<dialog id="dlg">
+  <div class="f">
+    <h2 id="dt" style="margin:0 0 4px">Novo jogo</h2>
+    <label>Capa</label>
+    <div class="pick"><div class="cov" id="pv">?</div>
+      <div><input type="file" id="file" accept="image/*" style="padding:6px"><div class="sub">Envie a imagem da capa (fica salva no navegador).</div></div></div>
+    <label>Nome do jogo</label><input id="name" maxlength="120">
+    <div class="row">
+      <div><label>Plataforma</label><select id="plat"></select></div>
+      <div><label>Status</label><select id="stt"><option value="fin">Finalizado</option><option value="play">Jogando</option><option value="want">Quero finalizar</option></select></div>
+    </div>
+    <input id="plat2" placeholder="Nome da plataforma" hidden style="margin-top:8px">
+    <div class="row">
+      <div><label>Começou em</label><input type="date" id="start"></div>
+      <div><label>Finalizado em</label><input type="date" id="date"></div>
+    </div>
+    <label>Duração</label><input id="dur" placeholder="ex.: 35h ou 12 dias (vazio = calcula pelas datas)">
+    <label>Nota</label><div class="rate" id="rate"></div>
+    <label>Comentários</label><textarea id="cm" placeholder="O que você achou?"></textarea>
+    <div class="acts">
+      <button class="btn danger" id="del">Excluir</button>
+      <button class="btn ghost" id="cancel">Cancelar</button>
+      <button class="btn" id="save">Salvar</button>
+    </div>
+  </div>
+</dialog>
+<input type="file" id="impf" accept=".json,.csv,.tsv,text/csv,application/json" hidden>
+
+<script>
+const KEY='jogos-finalizados-v1';
+const PLATS=['PC','PlayStation 5','PlayStation 4','Xbox Series','Xbox One','Nintendo Switch','Mobile','Outra…'];
+let games=[],cur=null,cover='',rating=0;
+const $=id=>document.getElementById(id);
+const db=new Promise((res,rej)=>{try{const r=indexedDB.open('jogos-finalizados',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});
+const kvGet=k=>db.then(d=>new Promise((res,rej)=>{const q=d.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)}));
+const kvSet=(k,v)=>db.then(d=>new Promise((res,rej)=>{const t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)}));
+async function load(){
+  let g;
+  try{g=await kvGet(KEY)}catch(e){}
+  if(!Array.isArray(g)){
+    try{g=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){g=[]}
+    if(g.length){try{await kvSet(KEY,g);localStorage.removeItem(KEY)}catch(e){}}
+  }
+  games=g;
+  try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+}
+function persist(){
+  kvSet(KEY,games).catch(()=>{
+    try{localStorage.setItem(KEY,JSON.stringify(games))}catch(e){alert('Não foi possível salvar (armazenamento cheio ou bloqueado). Use Exportar para fazer backup.')}
+  });
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function stars(n){let s='';for(let i=1;i<=5;i++)s+=i<=n?'★':'<span class="off">★</span>';return s}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function render(){
+  const q=$('q').value.toLowerCase(),fs=$('fs').value,fy=$('fy').value,fp=$('fp').value,so=$('so').value;
+  const years=[...new Set(games.map(yr).filter(Boolean))].sort().reverse();
+  const plats=[...new Set(games.map(g=>g.plat).filter(Boolean))].sort();
+  $('fy').innerHTML='<option value="">Todos os anos</option>'+years.map(y=>`<option ${y==fy?'selected':''}>${y}</option>`).join('');
+  $('fp').innerHTML='<option value="">Todas as plataformas</option>'+plats.map(p=>`<option ${p==fp?'selected':''}>${esc(p)}</option>`).join('');
+  let list=games.filter(g=>g.name.toLowerCase().includes(q)&&(!fs||st(g)===fs)&&(!fy||yr(g)===fy)&&(!fp||g.plat===fp));
+  list.sort(sorter(so));
+  $('grid').innerHTML=viewHTML(list);
+  $('empty').hidden=games.length>0;markIb();
+  const rated=games.filter(g=>g.rating);
+  const avg=rated.length?(rated.reduce((a,g)=>a+g.rating,0)/rated.length).toFixed(1):'–';
+  const c=s=>games.filter(g=>st(g)===s).length;
+  $('stats').textContent=`${c('fin')} finalizado${c('fin')===1?'':'s'} · ${c('play')} jogando · ${c('want')} para finalizar · nota média ${avg}`;
+}
+
+function markIb(){['fs','fy','fp'].forEach(id=>$(id).parentNode.classList.toggle('on',!!$(id).value));$('so').parentNode.classList.toggle('on',$('so').value!=='date')}
+const MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DB=['Até 1 semana','1 a 4 semanas','1 a 3 meses','Mais de 3 meses','Sem duração'];
+const dk=g=>g.date||g.start||'';
+const lab=k=>/^\d{4}-\d{2}$/.test(k)?MES[+k.slice(5)-1]+' '+k.slice(0,4):k;
+function daysOf(g){if(g.start&&g.date){const n=Math.round((new Date(g.date)-new Date(g.start))/864e5);if(n>=0)return n}return null}
+function sorter(so){
+  const S={
+    date:(a,b)=>dk(b).localeCompare(dk(a))||b.added-a.added,
+    old:(a,b)=>(dk(a)||'9').localeCompare(dk(b)||'9')||a.added-b.added,
+    rate:(a,b)=>b.rating-a.rating,
+    lrate:(a,b)=>(a.rating||9)-(b.rating||9),
+    name:(a,b)=>a.name.localeCompare(b.name),
+    zname:(a,b)=>b.name.localeCompare(a.name),
+    dur:(a,b)=>(daysOf(b)===null?-1:daysOf(b))-(daysOf(a)===null?-1:daysOf(a)),
+    plat:(a,b)=>(a.plat||'~').localeCompare(b.plat||'~')||a.name.localeCompare(b.name),
+    status:(a,b)=>['play','want','fin'].indexOf(st(a))-['play','want','fin'].indexOf(st(b)),
+    rand:()=>Math.random()-.5
+  };
+  const f=S[so]||S.date;
+  return so==='rand'?f:(a,b)=>f(a,b)||dk(b).localeCompare(dk(a));
+}
+const SL={fin:'Finalizado',play:'Jogando',want:'Quero finalizar'};
+const st=g=>g.status||'fin';
+const yr=g=>(g.date||g.start||'').slice(0,4);
+const fd=d=>d?d.split('-').reverse().join('/'):'';
+function durOf(g){if(g.dur)return g.dur;if(g.start&&g.date){const n=Math.round((new Date(g.date)-new Date(g.start))/864e5);if(n>=0)return n+(n===1?' dia':' dias')}return ''}
+function meta(g){const a=g.start&&g.date?fd(g.start)+' → '+fd(g.date):g.date?fd(g.date):g.start?'desde '+fd(g.start):'';return [a,durOf(g)].filter(Boolean).join(' · ')}
+const ICO={fin:'✓',play:'▶',want:'⏳'};
+const ico=g=>`<span class="ico ${st(g)}" title="${SL[st(g)]}">${ICO[st(g)]}</span>`;
+const bd=g=>st(g)==='fin'?'':`<span class="pl bd">${SL[st(g)]}</span>`;
+const cvH=g=>g.cover?`<img src="${g.cover}" alt="">`:esc(g.name[0]||'?').toUpperCase();
+const ttl=g=>esc(g.name).replace(/"/g,'&quot;');
+const cardH=g=>`<div class="card" title="${ttl(g)}" data-id="${g.id}"><div class="cov">${cvH(g)}${ico(g)}</div><div class="info"><p class="t">${esc(g.name)}</p><span class="pl">${esc(g.plat||'—')}</span>${bd(g)}<div class="sub">${meta(g)}</div><div class="stars">${stars(g.rating)}</div>${g.comment?`<div class="cm">${esc(g.comment)}</div>`:''}</div></div>`;
+const rowH=g=>`<div class="card" data-id="${g.id}"><div class="cov">${cvH(g)}</div><div class="info"><p class="t">${esc(g.name)}</p><span class="pl">${esc(g.plat||'—')}</span>${bd(g)} <span class="sub">${meta(g)}</span>${g.comment?`<div class="cm">${esc(g.comment)}</div>`:''}</div><div class="stars">${stars(g.rating)}</div></div>`;
+function viewHTML(list){
+  const lv=['grid','walls','rows'].includes($('vw').value)?$('vw').value:'grid',v=$('gb').value,el=$('grid');
+  const cls=lv==='walls'?'grid walls':lv==='rows'?'rows':'grid';
+  const one=l=>l.map(lv==='rows'?rowH:cardH).join('');
+  if(!v){el.className=cls;return one(list)}
+  el.className='';
+  const K={gs:g=>SL[st(g)],gf:g=>st(g)==='fin'?'Finalizados':'Não finalizados',gm:g=>dk(g).slice(0,7)||'Sem data',gl:g=>{const c=norm(g.name)[0]||'';return /[a-z]/.test(c)?c.toUpperCase():'#'},gd:g=>{const n=daysOf(g);return n===null?DB[4]:n<=7?DB[0]:n<=28?DB[1]:n<=90?DB[2]:DB[3]},gy:g=>yr(g)||'Sem data',gp:g=>g.plat||'Sem plataforma',gr:g=>g.rating?g.rating+' ★':'Sem nota'};
+  const m=new Map();
+  list.forEach(g=>{const k=K[v](g);if(!m.has(k))m.set(k,[]);m.get(k).push(g)});
+  const none=['Sem data','Sem plataforma','Sem nota','#',DB[4]],GO=['Jogando','Quero finalizar','Finalizado'];
+  const keys=[...m.keys()].sort((a,b)=>none.includes(a)-none.includes(b)||(v==='gs'?GO.indexOf(a)-GO.indexOf(b):v==='gd'?DB.indexOf(a)-DB.indexOf(b):v==='gf'?(a<b?-1:1):v==='gp'||v==='gl'?a.localeCompare(b):b.localeCompare(a)));
+  return keys.map(k=>`<h3 class="gh">${esc(lab(k))} <span class="sub">${m.get(k).length}</span></h3><div class="${cls}">${one(m.get(k))}</div>`).join('');
+}
+function drawRate(){
+  $('rate').innerHTML=[1,2,3,4,5].map(i=>`<button type="button" class="${i<=rating?'on':''}" data-v="${i}">★</button>`).join('');
+}
+function drawPv(){
+  $('pv').innerHTML=cover?`<img src="${cover}" alt="">`:(($('name').value[0]||'?').toUpperCase());
+}
+function openDlg(g){
+  cur=g||null;cover=g?g.cover:'';rating=g?g.rating:0;
+  $('dt').textContent=g?'Editar jogo':'Novo jogo';
+  $('name').value=g?g.name:'';
+  $('stt').value=g?st(g):'fin';
+  $('start').value=g?(g.start||''):'';
+  $('date').value=g?(g.date||''):new Date().toISOString().slice(0,10);
+  $('dur').value=g?(g.dur||''):'';
+  $('cm').value=g?g.comment:'';
+  const known=g&&PLATS.includes(g.plat);
+  $('plat').value=g?(known?g.plat:'Outra…'):'PC';
+  $('plat2').hidden=$('plat').value!=='Outra…';
+  $('plat2').value=g&&!known?g.plat:'';
+  $('del').hidden=!g;$('file').value='';
+  drawRate();drawPv();$('dlg').showModal();
+}
+function resize(file){
+  return new Promise(res=>{
+    const r=new FileReader();
+    r.onload=()=>{const im=new Image();im.onload=()=>{
+      const W=360,sc=Math.min(1,W/im.width),c=document.createElement('canvas');
+      c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      res(c.toDataURL('image/jpeg',.82))};im.src=r.result};
+    r.readAsDataURL(file);
+  });
+}
+
+$('plat').innerHTML=PLATS.map(p=>`<option>${p}</option>`).join('');
+$('plat').onchange=()=>{$('plat2').hidden=$('plat').value!=='Outra…'};
+$('stt').onchange=()=>{const v=$('stt').value;if(v!=='fin')$('date').value='';if(v==='want')$('start').value=''};
+$('file').onchange=async e=>{if(e.target.files[0]){cover=await resize(e.target.files[0]);drawPv()}};
+$('name').oninput=()=>{if(!cover)drawPv()};
+$('rate').onclick=e=>{const v=+e.target.dataset.v;if(v){rating=rating===v?0:v;drawRate()}};
+$('add').onclick=()=>openDlg();
+$('cancel').onclick=()=>$('dlg').close();
+$('grid').onclick=e=>{const c=e.target.closest('.card');if(c)openDlg(games.find(g=>g.id===c.dataset.id))};
+$('save').onclick=()=>{
+  const name=$('name').value.trim();
+  if(!name){$('name').focus();return}
+  let plat=$('plat').value;if(plat==='Outra…')plat=$('plat2').value.trim()||'Outra';
+  const data={name,plat,status:$('stt').value,start:$('start').value,date:$('date').value,dur:$('dur').value.trim(),rating,comment:$('cm').value.trim(),cover};
+  if(cur)Object.assign(cur,data);else games.push({id:uid(),added:Date.now(),...data});
+  persist();$('dlg').close();render();
+};
+$('del').onclick=()=>{if(cur&&confirm('Excluir "'+cur.name+'"?')){games=games.filter(g=>g!==cur);persist();$('dlg').close();render()}};
+['q','fs','fy','fp','so','vw','gb'].forEach(id=>$(id).oninput=()=>{if(id==='vw'||id==='gb'){try{localStorage.setItem('jogos-'+id,$(id).value)}catch(e){}}render()});
+try{$('vw').value=localStorage.getItem('jogos-vw')||'grid';$('gb').value=localStorage.getItem('jogos-gb')||''}catch(e){}
+
+$('exp').onclick=()=>{
+  const blob=new Blob([JSON.stringify(games)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='jogos-finalizados.json';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+};
+$('imp').onclick=()=>$('impf').click();
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+const RX={name:/^(nome|jogo|game|titulo|title)/,start:/inicio|comec|inici|start/,dur:/dura|tempo|horas|duration/,status:/status|situac|estado/,date:/fim|termin|finaliz|conclu|zerad|^data$|^date$/,plat:/plataf|platform|console/,rating:/nota|avalia|rating|score/,comment:/coment|obs|review|opini/};
+function normStatus(s,start,end){s=norm(s);
+  if(/jogando|andamento|playing|atual/.test(s))return 'play';
+  if(/quero|fila|backlog|pretendo|wish|todo|pendente|nao/.test(s))return 'want';
+  if(/final|zerad|termin|conclu|complet|done/.test(s))return 'fin';
+  return end?'fin':start?'play':'want';
+}
+function parseCSV(t){
+  t=t.replace(/^\uFEFF/,'');
+  const first=t.split('\n')[0];
+  const d=[',',';','\t'].map(c=>[c,first.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
+  const rows=[];let row=[],f='',q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;
+    else if(c===d){row.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;row.push(f);f='';rows.push(row);row=[]}
+    else f+=c}
+  if(f||row.length){row.push(f);rows.push(row)}
+  return rows.filter(r=>r.some(x=>x.trim()));
+}
+function parseDate(v){v=(v||'').trim();let m;
+  if(m=v.match(/^(\d{4})-(\d{2})-(\d{2})/))return m[0];
+  if(m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/))return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+  if(m=v.match(/^(\d{4})$/))return m[1]+'-01-01';
+  return '';
+}
+function num(v){v=String(v||'');const s=(v.match(/[★⭐]/g)||[]).length;if(s)return s;const n=parseFloat(v.replace(',','.'));return isNaN(n)?0:n}
+function importSheet(text){
+  const rows=parseCSV(text);if(rows.length<2)return alert('Planilha vazia.');
+  const h=rows[0].map(norm),idx={};
+  const used=new Set();for(const k in RX){idx[k]=h.findIndex((x,i)=>!used.has(i)&&RX[k].test(x));if(idx[k]>=0)used.add(idx[k])}
+  if(idx.name<0)idx.name=0;
+  const body=rows.slice(1);
+  const max=idx.rating>=0?Math.max(0,...body.map(r=>num(r[idx.rating]))):0;
+  const seen=new Map(games.map(g=>[norm(g.name)+'|'+norm(g.plat),g]));
+  let added=0,skip=0;
+  for(const r of body){
+    const name=(r[idx.name]||'').trim();if(!name)continue;
+    const plat=idx.plat>=0?(r[idx.plat]||'').trim():'';
+    const key=norm(name)+'|'+norm(plat);
+    const cell=k=>idx[k]>=0?(r[idx[k]]||'').trim():'';
+    const start=parseDate(cell('start')),end=parseDate(cell('date')),dur=cell('dur');
+    if(seen.has(key)){const o=seen.get(key);o.status=normStatus(cell('status'),start||o.start,end||o.date);if(start)o.start=start;if(end)o.date=end;if(dur)o.dur=dur;if(!o.comment)o.comment=cell('comment');skip++;continue}
+    const status=normStatus(cell('status'),start,end);
+    let rt=idx.rating>=0?num(r[idx.rating]):0;if(max>5)rt/=2;rt=Math.max(0,Math.min(5,Math.round(rt)));
+    const ng={id:uid(),added:Date.now()+added,name,plat,status,start,date:end,dur,rating:rt,comment:cell('comment'),cover:''};games.push(ng);seen.set(key,ng);
+    added++;
+  }
+  persist();render();
+  alert(added+' jogos novos'+(skip?' e '+skip+' atualizados (já existiam)':'')+'.');
+}
+$('impf').onchange=async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{
+    const txt=await f.text();
+    if(/\.(csv|tsv)$/i.test(f.name)||f.type==='text/csv'){importSheet(txt);return}
+    const arr=JSON.parse(txt);
+    if(Array.isArray(arr)&&confirm('Substituir a lista atual por '+arr.length+' jogos do backup?')){games=arr;persist();render()}
+  }catch(err){alert('Arquivo inválido.')}
+};
+load().then(render);
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
